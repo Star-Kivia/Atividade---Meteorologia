@@ -30,35 +30,14 @@
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(135deg, #E6E6FA, #D8BFD8, #C8A2C8);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Alterado de center para flex-start */
-            padding: 20px;
             color: #4B0082;
             position: relative;
+            padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            box-shadow: 0 12px 40px rgba(123, 104, 238, 0.25);
-            position: relative;
-            z-index: 2;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: transform 0.4s ease;
-            overflow-y: auto; 
-            max-height: 90vh; 
-        }
-        
-        .container:hover {
-            transform: translateY(-5px);
-        }
-
+        /* Elementos decorativos */
         .decoration {
-            position: absolute;
+            position: fixed;
             z-index: 0;
         }
 
@@ -93,6 +72,34 @@
             opacity: 0.3;
         }
 
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 12px 40px rgba(123, 104, 238, 0.25);
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.4s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
         .header {
             background: linear-gradient(135deg, var(--deep-purple), var(--violet));
             color: white;
@@ -100,6 +107,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            border-radius: 25px 25px 0 0;
         }
 
         .header::after {
@@ -396,6 +404,7 @@
             border-top: 1px solid rgba(147, 112, 219, 0.2);
             background: rgba(245, 240, 255, 0.6);
             font-weight: 500;
+            border-radius: 0 0 25px 25px;
         }
 
         .loading {
@@ -455,7 +464,7 @@
         }
 
         .snowflakes {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -510,86 +519,98 @@
             h1 {
                 font-size: 1.9rem;
             }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-container button {
+                padding: 18px;
+            }
         }
     </style>
 </head>
 
 <body>
-
+ 
     <div class="decoration circle"></div>
     <div class="decoration triangle"></div>
     <div class="decoration wave"></div>
+
     <div class="snowflakes" id="snow-effect"></div>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <i class="fas fa-cloud-moon"></i>
-                <div>
-                    <h1>ClimaHoje</h1>
-                    <div class="subtitle">Previsão do tempo em tempo real</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content">
-            <div class="search-container">
-                <input type="text" id="cidade" placeholder="Digite o nome da cidade..." autocomplete="off" value="">
-                <button id="buscar">
-                    <i class="fas fa-search-location"></i> Buscar
-                </button>
-            </div>
-
-            <div class="error" id="error-message"></div>
-
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Buscando informações meteorológicas...</p>
-            </div>
-
-            <div class="weather-box" id="resultado">
-                <div class="city-name">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span id="city-name"></span>
-                </div>
-
-                <div class="temperature" id="temperature">24</div>
-
-                <div class="weather-icon">
-                    <img id="weather-icon" src="https://openweathermap.org/img/wn/01d@2x.png" alt="Clima">
-                </div>
-
-                <div class="weather-description" id="weather-description">Céu limpo</div>
-
-                <div class="weather-details">
-                    <div class="detail">
-                        <i class="fas fa-tint"></i>
-                        <div class="label">Umidade</div>
-                        <div class="value" id="humidity">65%</div>
-                    </div>
-
-                    <div class="detail">
-                        <i class="fas fa-wind"></i>
-                        <div class="label">Vento</div>
-                        <div class="value" id="wind">12 km/h</div>
-                    </div>
-
-                    <div class="detail">
-                        <i class="fas fa-temperature-high"></i>
-                        <div class="label">Sensação</div>
-                        <div class="value" id="feels-like">25°C</div>
-                    </div>
-
-                    <div class="detail">
-                        <i class="fas fa-compress-arrows-alt"></i>
-                        <div class="label">Pressão</div>
-                        <div class="value" id="pressure">1015 hPa</div>
+    
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-cloud-moon"></i>
+                    <div>
+                        <h1>ClimaHoje</h1>
+                        <div class="subtitle">Previsão do tempo em tempo real</div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="footer">
-            <p>Dados fornecidos por OpenWeatherMap • ClimaHoje © 2025</p>
+            <div class="content">
+                <div class="search-container">
+                    <input type="text" id="cidade" placeholder="Digite o nome da cidade..." autocomplete="off" value="">
+                    <button id="buscar">
+                        <i class="fas fa-search-location"></i> Buscar
+                    </button>
+                </div>
+
+                <div class="error" id="error-message"></div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Buscando informações meteorológicas...</p>
+                </div>
+
+                <div class="weather-box" id="resultado">
+                    <div class="city-name">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="city-name"></span>
+                    </div>
+
+                    <div class="temperature" id="temperature">24</div>
+
+                    <div class="weather-icon">
+                        <img id="weather-icon" src="https://openweathermap.org/img/wn/01d@2x.png" alt="Clima">
+                    </div>
+
+                    <div class="weather-description" id="weather-description">Céu limpo</div>
+
+                    <div class="weather-details">
+                        <div class="detail">
+                            <i class="fas fa-tint"></i>
+                            <div class="label">Umidade</div>
+                            <div class="value" id="humidity">65%</div>
+                        </div>
+
+                        <div class="detail">
+                            <i class="fas fa-wind"></i>
+                            <div class="label">Vento</div>
+                            <div class="value" id="wind">12 km/h</div>
+                        </div>
+
+                        <div class="detail">
+                            <i class="fas fa-temperature-high"></i>
+                            <div class="label">Sensação</div>
+                            <div class="value" id="feels-like">25°C</div>
+                        </div>
+
+                        <div class="detail">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <div class="label">Pressão</div>
+                            <div class="value" id="pressure">1015 hPa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Dados fornecidos por OpenWeatherMap • ClimaHoje © 2025</p>
+            </div>
         </div>
     </div>
 
@@ -611,6 +632,7 @@
         const feelsLikeEl = document.getElementById('feels-like');
         const pressureEl = document.getElementById('pressure');
 
+        // Gerar efeito de neve para climas frios
         function createSnow() {
             snowEffect.innerHTML = '';
             snowEffect.style.display = 'block';
